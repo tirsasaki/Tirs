@@ -185,10 +185,13 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Enhanced Mobile Menu Button */}
+        {/* Enhanced Mobile Menu Button with accessibility */}
         <motion.button
           className="md:hidden relative p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -210,9 +213,9 @@ export function Header() {
                 }}
               />
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6 text-purple-500" />
+                <X className="h-6 w-6 text-purple-500" aria-hidden="true" />
               ) : (
-                <Menu className="h-6 w-6 text-purple-500" />
+                <Menu className="h-6 w-6 text-purple-500" aria-hidden="true" />
               )}
             </motion.div>
           </AnimatePresence>
@@ -223,6 +226,9 @@ export function Header() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.nav
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Mobile navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
