@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ArrowRight, Github, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link" // Add this import
 
 interface Project {
   title: string
@@ -115,13 +116,15 @@ export function Projects() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <Button
-              variant="outline"
-              className="group border-purple-500/20 bg-purple-500/10 text-white hover:bg-purple-500/20"
-            >
-              View All Projects
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <Link href="/projects">
+              <Button
+                variant="outline"
+                className="group border-purple-500/20 bg-purple-500/10 text-white hover:bg-purple-500/20"
+              >
+                View All Projects
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </div>
