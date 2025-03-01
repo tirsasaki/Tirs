@@ -89,8 +89,14 @@ export function Projects() {
                       className="h-8 w-8 p-0"
                       asChild
                     >
-                      <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4" />
+                      <a 
+                        href={project.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        aria-label={`View source code for ${project.title} on GitHub`}
+                      >
+                        <Github className="h-4 w-4" aria-hidden="true" />
+                        <span className="sr-only">GitHub Repository</span>
                       </a>
                     </Button>
                     <Button
@@ -98,8 +104,14 @@ export function Projects() {
                       className="h-8 w-8 p-0"
                       asChild
                     >
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
+                      <a 
+                        href={project.demo} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        aria-label={`View live demo of ${project.title}`}
+                      >
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                        <span className="sr-only">Live Demo</span>
                       </a>
                     </Button>
                   </div>

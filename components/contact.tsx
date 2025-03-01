@@ -29,9 +29,24 @@ export function Contact() {
   ]
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/tirsasaki", color: "hover:text-[#2ea043]" },
-    { icon: Twitter, href: "https://twitter.com/tirsasaki", color: "hover:text-[#1DA1F2]" },
-    { icon: Linkedin, href: "https://linkedin.com/in/tirsasaki", color: "hover:text-[#0A66C2]" }
+    { 
+      icon: Github, 
+      href: "https://github.com/tirsasaki", 
+      label: "Visit my GitHub profile",
+      color: "hover:text-[#2ea043]" 
+    },
+    { 
+      icon: Twitter, 
+      href: "https://twitter.com/tirsasaki", 
+      label: "Follow me on Twitter",
+      color: "hover:text-[#1DA1F2]" 
+    },
+    { 
+      icon: Linkedin, 
+      href: "https://linkedin.com/in/tirsasaki", 
+      label: "Connect with me on LinkedIn",
+      color: "hover:text-[#0A66C2]" 
+    }
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -121,14 +136,12 @@ export function Contact() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-500 transition-all duration-300 ${social.color} hover:border-purple-500/40 hover:bg-purple-500/10`}
+                      className={`flex h-12 w-12 items-center justify-center rounded-full border border-purple-500/20 bg-purple-500/5 text-purple-500 transition-all duration-300 ${social.color}`}
                       whileHover={{ y: -3 }}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
+                      aria-label={social.label}
                     >
-                      <social.icon className="h-5 w-5" />
+                      <social.icon className="h-5 w-5" aria-hidden="true" />
+                      <span className="sr-only">{social.label}</span>
                     </motion.a>
                   ))}
                 </div>
