@@ -1,70 +1,115 @@
 "use client"
 
-import { useEffect, useState } from 'react'
-import { motion } from "framer-motion"
+import { useCallback, useEffect, useState, useMemo } from 'react'
+import { motion, useReducedMotion } from "framer-motion"
 import { ArrowRight, Github, Copy, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { debounce } from 'lodash-es' // Only import what we need
 import toast from 'react-hot-toast'
-import Link from "next/link" // Add this import
+import Link from "next/link"
 
 export function Hero() {
   const [text, setText] = useState('')
   const [copied, setCopied] = useState(false)
-  const fullText = "Creative Developer & Writter"
-  const githubUrl = "https://github.com/tirsasaki"
+  const prefersReducedMotion = useReducedMotion()
   
-  useEffect(() => {
+  const fullText = useMemo(() => "Creative Developer & Writter", [])
+  const githubUrl = useMemo(() => "https://github.com/tirsasaki", [])
+  
+  // Memoize the typing effect
+  const startTypingEffect = useCallback(() => {
     let currentIndex = 0
     const intervalId = setInterval(() => {
-      setText(fullText.slice(0, currentIndex + 1))
-      currentIndex++
-      if (currentIndex === fullText.length) clearInterval(intervalId)
+      setText(prev => {
+        if (currentIndex >= fullText.length) {
+          clearInterval(intervalId)
+          return prev
+        }
+        currentIndex++
+        return fullText.slice(0, currentIndex)
+      })
     }, 100)
     return () => clearInterval(intervalId)
+  }, [fullText])
+
+  useEffect(() => {
+    startTypingEffect()
+  }, [startTypingEffect])
+
+  // Memoize the copy handler
+  const handleCopyGithub = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(githubUrl)
+      setCopied(true)
+      toast.success('GitHub URL copied!')
+      setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      toast.error('Failed to copy')
+    }
+  }, [githubUrl])
+
+  // Optimize particles count based on device performance
+  const particleCount = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 10 : 20
+    }
+    return 15
   }, [])
 
-  const handleCopyGithub = async () => {
-    await navigator.clipboard.writeText(githubUrl)
-    setCopied(true)
-    toast.success('GitHub URL copied to clipboard!')
-    setTimeout(() => setCopied(false), 2000)
-  }
+  // Memoize particle animations
+  const particles = useMemo(() => {
+    if (prefersReducedMotion) return []
+    
+    return Array.from({ length: particleCount }, (_, i) => ({
+      id: i,
+      x: Math.random() * 400 - 200,
+      y: Math.random() * 400 - 200,
+      scale: Math.random() + 0.5,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      duration: Math.random() * 3 + 2
+    }))
+  }, [particleCount, prefersReducedMotion])
 
   return (
     <section className="relative min-h-screen overflow-hidden pt-16">
-      {/* Enhanced animated background */}
+      {/* Optimized background */}
       <div className="absolute inset-0 z-0">
         <div className="relative h-full w-full">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/40 via-black to-black"></div>
-          <div className="absolute inset-0 opacity-30 mix-blend-overlay bg-[url('/grid.svg')]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/40 via-black to-black" />
+          {!prefersReducedMotion && (
+            <div className="absolute inset-0 opacity-30 mix-blend-overlay bg-[url('/grid.svg')]" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         </div>
       </div>
 
-      {/* Animated particles */}
-      <motion.div className="absolute inset-0 z-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-1 w-1 rounded-full bg-purple-500/30"
-            animate={{
-              x: [0, Math.random() * 400 - 200],
-              y: [0, Math.random() * 400 - 200],
-              scale: [1, Math.random() + 0.5],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </motion.div>
+      {/* Optimized particles */}
+      {!prefersReducedMotion && (
+        <motion.div className="absolute inset-0 z-0">
+          {particles.map(particle => (
+            <motion.div
+              key={particle.id}
+              className="absolute h-1 w-1 rounded-full bg-purple-500/30"
+              animate={{
+                x: [0, particle.x],
+                y: [0, particle.y],
+                scale: [1, particle.scale],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: particle.duration,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                left: particle.left,
+                top: particle.top,
+              }}
+            />
+          ))}
+        </motion.div>
+      )}
 
       {/* Main content */}
       <div className="container relative z-10 px-4 md:px-6">
