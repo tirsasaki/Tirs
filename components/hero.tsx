@@ -31,7 +31,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-16">
+    <section className="relative min-h-screen overflow-hidden pt-16">
       {/* Enhanced animated background */}
       <div className="absolute inset-0 z-0">
         <div className="relative h-full w-full">
@@ -67,28 +67,33 @@ export function Hero() {
       </motion.div>
 
       {/* Main content */}
-      <div className="container relative z-10 px-4 py-32 md:px-6">
+      <div className="container relative z-10 px-4 md:px-6">
         <motion.div 
-          className="mx-auto max-w-3xl text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="mx-auto max-w-3xl text-center min-h-[600px] flex flex-col justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="mb-6 inline-block rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-1.5"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 inline-block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <span className="text-sm text-purple-300">Welcome to my portfolio</span>
+            <span className="rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-1.5 text-sm text-purple-300">
+              Welcome to my portfolio
+            </span>
           </motion.div>
           
-          <h1 className="mb-6 bg-gradient-to-r from-white to-purple-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-6xl">
-            {text}<span className="text-purple-500 animate-pulse">|</span>
-          </h1>
+          <div className="mb-6 h-[120px] md:h-[144px] flex items-center justify-center">
+            <h1 className="bg-gradient-to-r from-white to-purple-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-6xl">
+              {text}
+              <span className="inline-block w-[12px] text-purple-500 animate-pulse">|</span>
+            </h1>
+          </div>
 
           <motion.p 
-            className="mb-8 text-lg text-zinc-400 md:text-xl"
+            className="mb-8 text-lg text-zinc-400 md:text-xl min-h-[56px] md:min-h-[84px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
@@ -98,9 +103,9 @@ export function Hero() {
           </motion.p>
 
           <motion.div 
-            className="flex flex-col items-center justify-center gap-4 sm:flex-row"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center gap-4 sm:flex-row min-h-[48px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
           >
             <Link href="/projects">
@@ -127,7 +132,7 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            className="mt-12 flex items-center justify-center gap-4"
+            className="mt-12 flex items-center justify-center gap-4 min-h-[32px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}
@@ -149,7 +154,7 @@ export function Hero() {
 
       {/* Enhanced scroll indicator */}
       <motion.div 
-        className="absolute bottom-10 left-0 right-0 flex justify-center"
+        className="absolute bottom-10 left-0 right-0 flex justify-center h-[40px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
