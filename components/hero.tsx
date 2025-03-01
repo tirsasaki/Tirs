@@ -5,12 +5,13 @@ import { motion } from "framer-motion"
 import { ArrowRight, Github, Copy, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import toast from 'react-hot-toast'
+import Link from "next/link" // Add this import
 
 export function Hero() {
   const [text, setText] = useState('')
   const [copied, setCopied] = useState(false)
   const fullText = "Creative Developer & Writter"
-  const githubUrl = "https://github.com/Tirsasaki"
+  const githubUrl = "https://github.com/tirsasaki"
   
   useEffect(() => {
     let currentIndex = 0
@@ -102,10 +103,13 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5 }}
           >
-            <Button size="lg" className="group w-full bg-purple-600 text-white hover:bg-purple-700 sm:w-auto">
-              View Projects
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+            <Link href="/projects">
+              <Button size="lg" className="group w-full bg-purple-600 text-white hover:bg-purple-700 sm:w-auto">
+                View Projects
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            
             <Button
               size="lg"
               variant="outline"
